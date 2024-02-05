@@ -9,44 +9,55 @@ connection.once("open", async () => {
 	console.log("connected");
 
 	try {
-		// Debug code to delete all users since some had duplicate emails
 		await User.collection.deleteMany({});
 		// console.log("Deleted users");
 
+		// const emails = getRandomEmails(20);
 		const thoughts = [];
-		const emails = getRandomEmails(20);
+		const users = [];
+		const usernames = [];
 
 		for (let i = 0; i < 20; i++) {
+			// const thoughts = [];
 			let randomUsername = getRandomUsername();
-			let randomEmail = getRandomEmails(1)[0];
+			let randomEmail = `${randomUsername}@example.com`;
 
-			while (await User.findOne({ $or: [{ username: randomUsername }, { email: randomEmail }] })) {
+			while (usernames.includes(randomUsername)) {
+				// console.log('generating user');
 				randomUsername = getRandomUsername();
-				randomEmail = getRandomEmails(1)[0];
+				randomEmail = `${randomUsername}@example.com`;
 			}
 
-			const randomThoughts = getRandomThoughts(1)[0].thoughts; // Extract the thoughts from the returned object
-			const randomReaction = getRandomReaction(1)[0].reactions; // Extract the reactions from the returned object
-
-			console.log(`Inserting user with email: ${randomEmail} and username: ${randomUsername}`);
-
-			if (!randomEmail) {
-				process.exit(1);
-			}
-
+			const randomThoughts = getRandomThoughts(1)[0].thoughts;
+			// console.log(randomThoughts);
+			const randomReaction = getRandomReaction(1)[0].reactions;
 			thoughts.push({
 				thoughtText: randomThoughts,
 				username: randomUsername,
 				reactions: randomReaction,
 			});
 
-			await User.collection.insertOne({
+			console.log(`Inserting user with email: ${randomEmail} and username: ${randomUsername}`);
+
+			if (!randomEmail) {
+				process.exit(1);
+			}
+			// console.log(thoughts);
+
+			users.push({
 				username: randomUsername,
 				email: randomEmail,
-				thoughts: [{ thoughts: randomThoughts }], // Wrap the thoughts in an array
+				thoughts: thoughts,
 			});
-		}
+			usernames.push(randomUsername);
 
+			// await User.collection.insertOne(users[i]);
+		}
+		console.table(thoughts);
+		console.table(users);
+
+		console.log(`Seeding complete. Seed count: ${thoughts.length}`);
+		await User.collection.insertMany(users);
 		await Thought.collection.insertMany(thoughts);
 		console.table(thoughts);
 		console.info("Seeds done");

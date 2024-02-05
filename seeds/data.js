@@ -50,18 +50,6 @@ const reactions = [
 	"It's so important to discuss [topic], and you've done it brilliantly here.",
 	"Kudos for shedding light on [topic]. Looking forward to your future posts!",
 ];
-const emails = [
-	"user1@example.com",
-	"person123@example.com",
-	"contact_me@example.com",
-	"username_42@example.com",
-	"email_me@example.com",
-	"sample_email@example.com",
-	"test_user@example.com",
-	"webmaster@example.com",
-	"random.email@example.com",
-	"my_email@example.com",
-];
 
 const getRandomData = array => array[Math.floor(Math.random() * array.length)];
 const getRandomUsername = () => {
@@ -87,10 +75,6 @@ const getRandomReaction = int => {
 		});
 	}
 	return results;
-};
-const getRandomEmails = int => {
-	const shuffledEmails = emails.slice().sort(() => Math.random() - 0.5);
-	return shuffledEmails.slice(0, int);
 };
 
 module.exports = { getRandomUsername, getRandomThoughts, getRandomReaction, getRandomEmails };
