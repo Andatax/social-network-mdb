@@ -77,4 +77,4 @@ const getRandomReaction = int => {
 	return results;
 };
 
-module.exports = { getRandomUsername, getRandomThoughts, getRandomReaction, getRandomEmails };
+module.exports = { getRandomUsername, getRandomThoughts, getRandomReaction };

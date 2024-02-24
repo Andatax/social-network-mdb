@@ -29,4 +29,65 @@ module.exports = {
 			res.status(500).json(err);
 		}
 	},
+	async updateThought(req, res) {
+		try {
+			const thought = await Thought.findOneAndUpdate({ _id: req.params.thoughtId }, req.body, {
+				new: true,
+			}).select("-__v");
+			if (!thought) {
+				return res.status(404).json({ message: "Thought not found" });
+			}
+			res.json(thought);
+		} catch (err) {
+			res.status(500).json(err);
+			console.log(err);
+		}
+	},
+	async deleteThought(req, res) {
+		try {
+			const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
+			if (!thought) {
+				return res.status(404).json({ message: "Thought not found" });
+			}
+			res.json(thought);
+		} catch {
+			res.status(500).json(err);
+			console.log(err);
+		}
+	},
+	async createNewReaction(req, res) {
+		try {
+			const thought = await Thought.findOneAndUpdate(
+				{ _id: req.params.thoughtId },
+				{ $addToSet: { reactions: req.body } },
+				{ new: true, runValidators: true }
+			);
+			if (!thought) {
+				return res.status(404).json({ message: "Thought not found" });
+			}
+			res.json(thought);
+		} catch (err) {
+			res.status(500).json(err);
+			console.log(err);
+		}
+	},
+	async deleteReaction(req, res) {
+		try {
+			const thought = await Thought.findOneAndUpdate(
+				{ _id: req.params.thoughtId },
+				{ $pull: { reactions: { reactionId: req.params.reactionId } } },
+				{ new: true }
+			);
+			if (!thought) {
+				return res.status(404).json({ message: "Thought not found" });
+			}
+			if (!thought.reactions) {
+				return res.status(404).json({ message: "Reaction not found" });
+			}
+			res.json(thought);
+		} catch (err) {
+			res.status(500).json(err);
+			console.log(err);
+		}
+	},
 };
