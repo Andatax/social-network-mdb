@@ -12,17 +12,17 @@ const thoughtSchema = new Schema(
 			get: createdAtValue => moment(createdAtValue).format("MMM DD, YYYY [at] h:mm A"),
 		},
 
-		username: { required: true, type: Schema.Types.ObjectId, ref: "user" },
+		username: { required: true, type: String },
 
 		reactions: [reactionSchema],
-	},
-
-	{
-		toJSON: {
-			virtuals: true,
-		},
-		id: false,
 	}
+
+	// {
+	// 	toJSON: {
+	// 		virtuals: true,
+	// 	},
+	// 	id: false,
+	// }
 );
 thoughtSchema.virtual("reactionCount").get(function () {
 	return this.reactions.length;

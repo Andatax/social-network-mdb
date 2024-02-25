@@ -75,9 +75,9 @@ module.exports = {
 		try {
 			const thought = await Thought.findOneAndUpdate(
 				{ _id: req.params.thoughtId },
-				{ $pull: { reactions: { reactionId: req.params.reactionId } } },
+				{ $pull: { reactions: { _id: req.params.reactionId } } },
 				{ new: true }
-			);
+			).select("-__v");
 			if (!thought) {
 				return res.status(404).json({ message: "Thought not found" });
 			}
