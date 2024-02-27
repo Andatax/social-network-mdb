@@ -59,8 +59,8 @@ module.exports = {
 		try {
 			const thought = await Thought.findOneAndUpdate(
 				{ _id: req.params.thoughtId },
-				{ $addToSet: { reactions: req.body } },
-				{ new: true, runValidators: true }
+				{ $push: { reactions: req.body } },
+				{ new: true, runValidators: true, upsert: true }
 			);
 			if (!thought) {
 				return res.status(404).json({ message: "Thought not found" });

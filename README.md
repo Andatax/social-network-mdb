@@ -78,7 +78,7 @@ This application provides a RESTful API that can be interacted with using API te
 
 ## Link to WalkThrough Video
 
-[Link to WalkThrough Video](placeholderurl)
+[Link to WalkThrough Video](https://drive.google.com/file/d/1-P2Tc77cDETSfkD7Ww_FT-26EXM3XFPB/view?usp=sharing)
 
 ## License
 

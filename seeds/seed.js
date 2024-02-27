@@ -35,10 +35,10 @@ connection.once("open", async () => {
 				randomReaction = randomReaction.join("");
 			}
 			console.log(randomReaction);
-			// const reactionObject = {
-			// 	reactionBody: randomReaction,
-			// 	username: randomUsername,
-			// };
+			const reactionObject = {
+				reactionBody: randomReaction,
+				username: randomUsername,
+			};
 
 			thoughts.push({
 				thoughtText: randomThoughts,
